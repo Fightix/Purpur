@@ -10,7 +10,6 @@ plugins {
 
 allprojects {
     apply(plugin = "java")
-    apply(plugin = "maven-publish")
 
     java {
         toolchain {
@@ -79,28 +78,16 @@ paperweight {
     }
 }
 
-tasks.generateDevelopmentBundle {
-    apiCoordinates.set("org.purpurmc.purpur:purpur-api")
-    mojangApiCoordinates.set("io.papermc.paper:paper-mojangapi")
-    libraryRepositories.set(
-        listOf(
-            "https://repo.maven.apache.org/maven2/",
-            paperMavenPublicUrl,
-            "https://repo.purpurmc.org/snapshots",
-        )
-    )
-}
-
 publishing {
     publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
+        create<MavenPublication>("paperclip") {
+            artifact(tasks.createReobfPaperclipJar) {
+                artifactId = "purpur-paperclip"
+            }
 
             groupId = "net.fightix.purpur"
-            artifactId = "purpur-bundler"
-            version = "1.20.1-${System.getenv("GITHUB_RUN_NUMBER") ?: "SNAPSHOT"}"
-
-            artifact(tasks["jar"])
+            artifactId = "purpur-paperclip"
+            version = project.version.toString()
         }
     }
 
