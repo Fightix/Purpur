@@ -4,9 +4,23 @@ on:
   push:
     branches:
       - "ver/1.20.1"
+  workflow_dispatch:
 
 jobs:
+  remove-old-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old package versions
+        uses: smartsquaregmbh/delete-old-packages@v0.4.0
+        with:
+          repo: 'maven'
+          token: ${{ secrets.REPOSITORY_TOKEN }}
+          keep: 0
+          names: |
+            net.fightix.purpur
+
   publish:
+    needs: remove-old-package
     runs-on: ubuntu-latest
 
     steps:
@@ -19,14 +33,19 @@ jobs:
           distribution: 'temurin'
           java-version: 17
 
+      - name: Configure Git (for patching)
+        run: |
+          git config --global user.name "Fightix CI Bot"
+          git config --global user.email "ci@fightix.net"
+
       - name: Grant execute permissions for gradlew
         run: chmod +x ./gradlew
 
       - name: Apply Patches
         run: ./gradlew applyPatches
 
-      - name: Build
-        run: ./gradlew build
+      - name: Build Purpur Server
+        run: ./gradlew :Purpur-Server:build
 
       - name: Publish to GitHub Maven
         run: ./gradlew :Purpur-Server:publish
