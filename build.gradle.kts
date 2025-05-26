@@ -91,17 +91,6 @@ tasks.generateDevelopmentBundle {
     )
 }
 
-allprojects {
-    publishing {
-        repositories {
-            maven("https://repo.purpurmc.org/snapshots") {
-                name = "purpur"
-                credentials(PasswordCredentials::class)
-            }
-        }
-    }
-}
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
