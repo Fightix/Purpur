@@ -103,9 +103,25 @@ allprojects {
 }
 
 publishing {
-    publications.create<MavenPublication>("devBundle") {
-        artifact(tasks.generateDevelopmentBundle) {
-            artifactId = "dev-bundle"
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+
+            groupId = "net.fightix.purpur"
+            artifactId = "purpur-bundler"
+            version = "1.20.1-${System.getenv("GITHUB_RUN_NUMBER") ?: "SNAPSHOT"}"
+
+            artifact(tasks["jar"])
+        }
+    }
+
+    repositories {
+        maven {
+            url = uri("https://maven.pkg.github.com/Fightix/maven")
+            credentials {
+                username = System.getenv("GITHUB_USERNAME") ?: findProperty("gpr.user") as String?
+                password = System.getenv("GITHUB_TOKEN") ?: findProperty("gpr.key") as String?
+            }
         }
     }
 }

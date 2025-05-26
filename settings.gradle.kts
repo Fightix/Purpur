@@ -4,6 +4,13 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         maven("https://repo.papermc.io/repository/maven-public/")
+        maven {
+            url = uri("https://maven.pkg.github.com/Fightix/maven")
+            credentials {
+                username = System.getenv("GITHUB_USERNAME") ?: providers.gradleProperty("gpr.username").orNull
+                password = System.getenv("GITHUB_TOKEN") ?: providers.gradleProperty("gpr.token").orNull
+            }
+        }
     }
 }
 
