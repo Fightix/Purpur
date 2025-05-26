@@ -58,7 +58,7 @@ jobs:
           ./gradlew createReobfPaperclipJar --no-daemon --stacktrace
 
       - name: Publish Paperclip package
-        run: ./gradlew publishPaperclipPublicationToGitHubPackagesRepository --no-daemon --stacktrace
+        run: ./gradlew publish --no-daemon --stacktrace
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}
