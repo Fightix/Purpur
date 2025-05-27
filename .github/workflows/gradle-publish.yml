@@ -60,5 +60,5 @@ jobs:
       - name: Publish Paperclip package
         run: ./gradlew publish --no-daemon --stacktrace
         env:
-          GITHUB_USERNAME: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}
+          FIGHTIX_USERNAME: ${{ github.actor }}
+          FIGHTIX_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}

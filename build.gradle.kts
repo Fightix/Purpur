@@ -95,8 +95,8 @@ publishing {
         maven {
             url = uri("https://maven.pkg.github.com/Fightix/maven")
             credentials {
-                username = System.getenv("GITHUB_USERNAME") ?: findProperty("gpr.user") as String?
-                password = System.getenv("GITHUB_TOKEN") ?: findProperty("gpr.key") as String?
+                username = System.getenv("FIGHTIX_USERNAME") ?: findProperty("gpr.user") as String?
+                password = System.getenv("FIGHTIX_TOKEN") ?: findProperty("gpr.key") as String?
             }
         }
     }
